@@ -11,9 +11,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { action, telephone, adminKey } = req.body;
+  const { action, telephone, adminKey, code, actif } = req.body || {};
 
-  if (adminKey !== process.env.ADMIN_KEY) {
+  // Toutes les actions admin sont protégées par ADMIN_KEY
+  if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
     return res.status(401).json({ error: 'Non autorisé' });
   }
 
@@ -36,6 +37,30 @@ export default async function handler(req, res) {
 
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json({ success: true, code, data });
+  }
+
+  if (action === 'lister') {
+    const { data, error } = await supabase
+      .from('abonnements_niger')
+      .select('code, telephone, questions_restantes, date_expiration, actif')
+      .order('date_expiration', { ascending: false });
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ success: true, abonnements: data || [] });
+  }
+
+  if (action === 'basculer_actif') {
+    if (!code) return res.status(400).json({ error: 'Code requis' });
+
+    const { data, error } = await supabase
+      .from('abonnements_niger')
+      .update({ actif: !!actif })
+      .eq('code', code)
+      .select()
+      .single();
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ success: true, data });
   }
 
   return res.status(400).json({ error: 'Action invalide' });
