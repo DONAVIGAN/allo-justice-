@@ -58,8 +58,12 @@ const SUGGESTIONS = [
   { icon: "🏛️", text: "Comment fonctionne l'action civile devant le tribunal ?" },
 ];
 
+// TEST : accès direct sans code d'abonnement (endpoints Supabase désactivés le temps des tests).
+// Repasser à false pour réactiver la porte d'abonnement (/api/abonnement).
+const BYPASS_ABONNEMENT = true;
+
 export default function App() {
-  const [abonne, setAbonne] = useState(null);
+  const [abonne, setAbonne] = useState(BYPASS_ABONNEMENT ? { code: 'TEST', questions: 9999 } : null);
   const [codeInput, setCodeInput] = useState('');
   const [codeLoading, setCodeLoading] = useState(false);
   const [codeError, setCodeError] = useState('');
@@ -147,8 +151,10 @@ export default function App() {
       setMessages(prev => [...prev, { role: "assistant", content: reply }]);
       if (uploadedDoc) setUploadedDoc(null);
 
-      fetch('/api/abonnement', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'decrementer', code: abonne.code}) });
-      setAbonne(prev => ({ ...prev, questions: prev.questions - 1 }));
+      if (!BYPASS_ABONNEMENT) {
+        fetch('/api/abonnement', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'decrementer', code: abonne.code}) });
+        setAbonne(prev => ({ ...prev, questions: prev.questions - 1 }));
+      }
     } catch (err) {
       setError("⚠️ Le volume de demandes a dépassé nos prévisions journalières. Allô Justice sera de nouveau disponible dans quelques minutes. Merci de votre confiance !");
     } finally {
