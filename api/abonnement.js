@@ -1,8 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Clé service_role : usage strictement serveur, bypass le RLS. Ne jamais exposer au client.
+// Repli sur l'ancien nom SUPABASE_ANON_KEY tant que la variable n'est pas renommée sur Vercel.
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
 );
 
 export default async function handler(req, res) {
