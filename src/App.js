@@ -324,7 +324,7 @@ export default function App() {
 
       <div style={{ background:"rgba(8,18,32,.97)", borderTop:"1px solid rgba(184,150,46,.15)", padding:"12px 16px", textAlign:"center" }}>
         <div style={{ fontSize:10, color:"#b8962e", marginBottom:4, letterSpacing:1 }}>DÉVELOPPÉ PAR DONA VIGAN</div>
-        <div style={{ fontSize:10, color:"#7a9abf" }}>📞 WhatsApp : (229) 01 96 04 98 00</div>
+        <div style={{ fontSize:10, color:"#7a9abf" }}>📞 WhatsApp : +227 86 99 71 42</div>
         <div style={{ fontSize:10, color:"#7a9abf" }}>✉️ missessin229@gmail.com</div>
       </div>
 
