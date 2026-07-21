@@ -194,7 +194,7 @@ export default function App() {
           <div style={{ color:"#7a9abf", marginTop:2 }}>NITA ou AMANA</div>
           <div style={{ color:"#7a9abf", marginTop:4 }}>2 000 FCFA / 30 questions / 30 jours</div>
           <div style={{ color:"#506070", marginTop:8 }}>Envoyez la preuve de dépôt par WhatsApp ou email pour recevoir votre code</div>
-          <div style={{ color:"#7a9abf", marginTop:2 }}>✉️ missessin229@gmail.com</div>
+          <div style={{ color:"#7a9abf", marginTop:2 }}>✉️ sphinxniger@gmail.com</div>
         </div>
       </div>
     );
