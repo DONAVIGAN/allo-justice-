@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Init paresseuse et gardée : createClient(undefined, …) lève à la charge du module
+// et fait planter la fonction en 500 nu (FUNCTION_INVOCATION_FAILED). On vérifie donc
+// les variables d'env AVANT, pour renvoyer une erreur claire plutôt que crasher.
 // Clé service_role : usage strictement serveur, bypass le RLS. Ne jamais exposer au client.
 // Repli sur l'ancien nom SUPABASE_ANON_KEY tant que la variable n'est pas renommée sur Vercel.
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
-);
+function getSupabase() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,7 +18,15 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { action, code } = req.body;
+  const { action, code } = req.body || {};
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    console.error('Config Supabase manquante (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).');
+    return res.status(503).json({ valide: false, message: 'Service momentanément indisponible. Réessayez plus tard.' });
+  }
+
+  try {
 
   if (action === 'verifier') {
     const { data, error } = await supabase
@@ -56,4 +69,8 @@ export default async function handler(req, res) {
   }
 
   return res.status(400).json({ error: 'Action invalide' });
+  } catch (err) {
+    console.error('Erreur api/abonnement:', err);
+    return res.status(500).json({ valide: false, message: 'Erreur serveur. Réessayez.' });
+  }
 }
