@@ -207,7 +207,10 @@ export default function App() {
         <div style={{ display:"flex", alignItems:"center", gap:11 }}>
           <div style={{ width:42, height:42, background:`linear-gradient(135deg,${gold},#e8c84a)`, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0, boxShadow:`0 2px 12px rgba(184,150,46,.4)` }}>⚖️</div>
           <div>
-            <div style={{ fontSize:16, fontWeight:"bold", color:"#f0e4c8", letterSpacing:1.5 }}>ALLÔ JUSTICE</div>
+            <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+              <div style={{ fontSize:16, fontWeight:"bold", color:"#f0e4c8", letterSpacing:1.5 }}>ALLÔ JUSTICE</div>
+              <span style={{ fontSize:9, fontWeight:"bold", color:"#0b1929", background:gold, borderRadius:4, padding:"1px 6px", letterSpacing:1.5 }}>🇳🇪 NIGER</span>
+            </div>
             <div style={{ fontSize:9, color:"#7a9abf", letterSpacing:1, marginTop:1 }}>ASSISTANT JURIDIQUE · {abonne.questions} question{abonne.questions>1?'s':''} restante{abonne.questions>1?'s':''}</div>
           </div>
           <div style={{ marginLeft:"auto", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
@@ -323,9 +326,9 @@ export default function App() {
       </div>
 
       <div style={{ background:"rgba(8,18,32,.97)", borderTop:"1px solid rgba(184,150,46,.15)", padding:"12px 16px", textAlign:"center" }}>
-        <div style={{ fontSize:10, color:"#b8962e", marginBottom:4, letterSpacing:1 }}>DÉVELOPPÉ PAR DONA VIGAN</div>
-        <div style={{ fontSize:10, color:"#7a9abf" }}>📞 WhatsApp : +227 86 99 71 42</div>
-        <div style={{ fontSize:10, color:"#7a9abf" }}>✉️ missessin229@gmail.com</div>
+        <div style={{ fontSize:10, color:"#b8962e", marginBottom:4, letterSpacing:1 }}>DÉVELOPPÉ PAR SPHINX</div>
+        <div style={{ fontSize:10, color:"#7a9abf" }}>📞 Tél : +227 86 99 71 42</div>
+        <div style={{ fontSize:10, color:"#7a9abf" }}>✉️ sphinxniger@gmail.com</div>
       </div>
 
       <style>{`
